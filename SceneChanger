@@ -1,0 +1,28 @@
+package sample;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+public class SceneChanger {
+    public static void changeScene (ActionEvent event, String path) {
+        try {
+            Node eventSource = (Node) event.getSource();
+            Scene scene = eventSource.getScene();
+            Stage stage = (Stage) scene.getWindow();
+
+            Parent root = FXMLLoader.load(SceneChanger.class.getResource(path));
+            Scene newScene = new Scene(root);
+
+            stage.setScene(newScene);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+}
