@@ -1,0 +1,136 @@
+package sample;
+
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+
+import java.io.*;
+import java.net.URL;
+
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable {
+
+    @FXML
+    private Button nextButton;
+    @FXML
+    private Button addItemButton;
+
+    @FXML
+    private TextField itemField;
+    @FXML
+    private TextField amountField;
+
+    @FXML
+    private AnchorPane anchorPane;
+
+    public static MyArrayList<Object> timsArray = new MyArrayList<Object>();
+
+    public static void writeToText(){
+
+    }
+
+    public static void readFromText (){
+
+    }
+
+    //TODO if there is time make a remove method in MyArrayList.
+    //TODO if there is time add information to a file
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        readFromText();
+
+
+
+        itemField.setPromptText("Enter an Item");
+        amountField.setPromptText("Enter the amount of the Item");
+
+        anchorPane.setOnKeyPressed(event -> {
+            try {
+                if (event.getCode() == KeyCode.I) {
+                    System.out.println("checking indexes being used = " + timsArray.size());
+                    System.out.println("total array size = " + timsArray.totalSize());
+                    System.out.println("checking get(0) = " + timsArray.get(0));
+                    System.out.println("checking isEmpty = " + timsArray.isEmpty());
+                    System.out.println("getting index [4] = " + timsArray.get(4));
+                }
+            }catch (Exception e){
+                System.out.println("");
+            }
+        });
+
+        addItemButton.setOnMousePressed(event -> {
+            System.out.println("pressed add button");
+
+            String item;
+            Integer amount;
+
+            try {
+                if (itemField.getText() == null && amountField.getText() == null) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("error");
+                    alert.setHeaderText("both the item and amount \n" +
+                            "section must be specified before adding them");
+                    alert.show();
+
+                    throw new Exception();
+                }
+
+                if (itemField.getText() == null) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("error");
+                    alert.setHeaderText("need an Item before adding to the list");
+                    alert.show();
+
+                    throw new Exception();
+
+                } else if (amountField.getText() == null) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("error");
+                    alert.setHeaderText("need an Amount before adding to the list");
+                    alert.show();
+
+                    throw new Exception();
+
+                } else {
+                    item = itemField.getText();
+                    amount = Integer.valueOf(amountField.getText());
+
+                    System.out.println(amount.getClass().getSimpleName());
+
+                    Item toItemClass = new Item(item,amount);
+                    timsArray.add(toItemClass);
+
+                    writeToText();
+                    itemField.setText(null);
+                    amountField.setText(null);
+                }
+
+            } catch (Exception e) {
+                System.out.println("check alert window");
+                //use this alert in the right statement.
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("error");
+                alert.setHeaderText("check you have the right input ");
+                alert.show();
+                amountField.setText(null);
+                itemField.setText(null);
+
+            }
+
+        });
+
+        nextButton.setOnAction(event -> {
+            SceneChanger.changeScene(event, "../files/scene2.fxml");
+        });
+
+
+    }
+
+
+}
