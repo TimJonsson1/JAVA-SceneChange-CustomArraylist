@@ -1,0 +1,27 @@
+package sample;
+
+import java.text.Format;
+
+public class Item {
+
+    private String itemName;
+    private Integer amount;
+
+    public Item(String itemName, Integer amount) {
+        this.itemName = itemName;
+        this.amount = amount;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    @Override
+    public String toString() {
+        return "Item: " + itemName + "          Amount: " + amount;
+    }
+}
